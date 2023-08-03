@@ -26,7 +26,6 @@ export function PersonCardGraphToolkit(props) {
         </a>{" "}
         to show person card.
       </p>
-      <pre>{`const provider = new TeamsFxProvider(credential, scope); \nProviders.globalProvider = provider; \nProviders.globalProvider.setState(ProviderState.SignedIn);`}</pre>
 
       {!props.loading && props.error && (
         <div className="error">
@@ -35,9 +34,50 @@ export function PersonCardGraphToolkit(props) {
         </div>
       )}
       {!props.loading && !props.error && props.data && (
-        <div className={themeString === "default" ? "mgt-light" : "mgt-dark"}>
-          <PersonCard personQuery="me" isExpanded={false}></PersonCard>
-        </div>
+        <>
+          <p>
+            <strong>Personal info: </strong>
+          </p>
+          <div className={themeString === "default" ? "mgt-light" : "mgt-dark"}>
+            <PersonCard personQuery="me" isExpanded={false}></PersonCard>
+          </div>
+          <div>
+            <p>
+              <strong>Organization: </strong>
+              {props.data.organization.value[0].displayName}
+            </p>
+            <p>
+              <strong>Users: </strong>
+            </p>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(4, 1fr)",
+                gap: "15px",
+              }}
+            >
+              {props.data.users.value.map((item) => (
+                <span
+                  style={{
+                    background: "#ffffff",
+                    padding: "10px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    textAlign: "center",
+                    borderRadius: "5px",
+                    boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+                    gap: "10px",
+                  }}
+                >
+                  <strong>{item.displayName}</strong>
+                  <span style={{ fontSize: "12px" }}>{item.id}</span>
+                </span>
+              ))}
+            </div>
+          </div>
+        </>
       )}
     </div>
   );
